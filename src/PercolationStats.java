@@ -1,33 +1,56 @@
-package davidraleigh;
-
 /**
  * Created by davidraleigh on 2/3/15.
  */
 public class PercolationStats {
+  /**
+   * perform T independent experiments on an N-by-N grid
+   * constructor should throw a java.lang.IllegalArgumentException if either N ≤ 0 or T ≤ 0
+   * @param N
+   * @param T
+   */
+  public PercolationStats(int N, int T)
+  {
 
-    public PercolationStats(int N, int T)
-    {
+  }
 
-    }// perform T independent experiments on an N-by-N grid
+  /**
+   * sample mean of percolation threshold
+   * @return
+   */
+  public double mean()
+  {
+    // NOT IMPLEMENTED
+    return Double.NaN;
+  }
 
-    public double mean()
-    {
-        return Double.NaN;
-    }// sample mean of percolation threshold
+  /**
+   * sample standard deviation of percolation threshold
+   * @return
+   */
+  public double stddev()
+  {
+    // NOT IMPLEMENTED
+    return Double.NaN;
+  }
 
-    public double stddev()
-    {
-        return Double.NaN;
-    }// sample standard deviation of percolation threshold
+  /**
+   * low  endpoint of 95% confidence interval
+   * @return
+   */
+  public double confidenceLo()
+  {
+    // NOT IMPLEMENTED
+    return Double.NaN;
+  }
 
-    public double confidenceLo()
-    {
-        return Double.NaN;
-    }// low  endpoint of 95% confidence interval
-
-    public double confidenceHi()
-    {
-        return Double.NaN;
-    }// high endpoint of 95% confidence interval
+  /**
+   * high endpoint of 95% confidence interval
+   * @return
+   */
+  public double confidenceHi()
+  {
+    // NOT IMPLEMENTED
+    return Double.NaN;
+  }
 
 }
