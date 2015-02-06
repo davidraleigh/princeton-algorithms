@@ -9,6 +9,7 @@ esri-geometry-api.jar
 description.jardesc
 *.bak
 *.properties
+*.zip
 
 # Intellij project files
 *.iml
