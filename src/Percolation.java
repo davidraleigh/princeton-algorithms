@@ -1,12 +1,13 @@
 /**
  * Created by davidraleigh on 2/3/15.
- *
- Performance requirements.  The constructor should take time proportional to N2; all methods should take constant time plus a constant number of calls to the union-find methods union(), find(), connected(), and count().
+ * Performance requirements.  The constructor should take time proportional to N2;
+ * all methods should take constant time plus a constant number of calls to the
+ * union-find methods union(), find(), connected(), and count().
  */
 public class Percolation {
-  private WeightedQuickUnionUF _weightedUnionUF;
-  private int _N;
-  private boolean _positionStatus[];
+  private WeightedQuickUnionUF mWeightedUnionUF;
+  private int mN;
+  private boolean mPositionStatus[];
 
   /**
    * create N-by-N grid, with all sites blocked
@@ -15,20 +16,23 @@ public class Percolation {
    */
   public Percolation(int N)
   {
-    _N = N;
-    _weightedUnionUF = new WeightedQuickUnionUF(N * N);
+    if (N <= 0)
+      throw new IllegalArgumentException();
+
+    mN = N;
+    mWeightedUnionUF = new WeightedQuickUnionUF(N * N);
     // all values initialize to false
-    _positionStatus = new boolean[N * N];
+    mPositionStatus = new boolean[N * N];
   }
 
   private int _arrayPosition(int i, int j)
   {
-    return (i - 1) * _N + (j - 1);
+    return (i - 1) * mN + (j - 1);
   }
 
   private void _union(int row1, int col1, int row2, int col2)
   {
-    _weightedUnionUF.union(_arrayPosition(row1, col1), _arrayPosition(row2, col2));
+    mWeightedUnionUF.union(_arrayPosition(row1, col1), _arrayPosition(row2, col2));
   }
 
   /**
@@ -42,7 +46,7 @@ public class Percolation {
     if (isOpen(i, j))
       return;
 
-    if (i > _N || j > _N || i < 1 || j < 1)
+    if (i > mN || j > mN || i < 1 || j < 1)
       throw new IndexOutOfBoundsException();
 
     // just to help us keep track
@@ -56,7 +60,7 @@ public class Percolation {
       _union(i, j, iAbove, j);
 
     // test below
-    if (i < _N && isOpen(iBelow, j))
+    if (i < mN && isOpen(iBelow, j))
       _union(i, j, iBelow, j);
 
     // test left
@@ -64,10 +68,10 @@ public class Percolation {
       _union(i, j, i, jLeft);
 
     // test right
-    if (j < _N && isOpen(i, jRight))
+    if (j < mN && isOpen(i, jRight))
       _union(i, j, i, jRight);
 
-    _positionStatus[_arrayPosition(i, j)] = true;
+    mPositionStatus[_arrayPosition(i, j)] = true;
   }
 
   /**
@@ -79,10 +83,10 @@ public class Percolation {
    */
   public boolean isOpen(int i, int j)
   {
-    if (i > _N || j > _N || i < 1 || j < 1)
+    if (i > mN || j > mN || i < 1 || j < 1)
       throw new IndexOutOfBoundsException();
 
-    return _positionStatus[_arrayPosition(i, j)];
+    return mPositionStatus[_arrayPosition(i, j)];
   }
 
   /**
@@ -94,10 +98,16 @@ public class Percolation {
    */
   public boolean isFull(int i, int j)
   {
-    if (i > _N || j > _N || i < 1 || j < 1)
+    if (i > mN || j > mN || i < 1 || j < 1)
       throw new IndexOutOfBoundsException();
 
-    // NOT IMPLEMENTED
+    for (int col = 1; col <= mN; col++) {
+      if (!mPositionStatus[_arrayPosition(1, col)])
+        continue;
+
+      if (mWeightedUnionUF.connected(_arrayPosition(i, j), _arrayPosition(1, col)))
+        return true;
+    }
     return false;
   }
 
@@ -108,14 +118,14 @@ public class Percolation {
   public boolean percolates()
   {
     //int topRow = 0;
-    int bottomRow = _N - 1;
-    for (int topCol = 0; topCol < _N; topCol++) {
-      if (!_positionStatus[topCol])
+    int bottomRow = mN - 1;
+    for (int topCol = 0; topCol < mN; topCol++) {
+      if (!mPositionStatus[topCol])
         continue;
-      for (int bottomCol = 0; bottomCol < _N; bottomCol++) {
-        if (!_positionStatus[bottomRow * _N + bottomCol])
+      for (int bottomCol = 0; bottomCol < mN; bottomCol++) {
+        if (!mPositionStatus[bottomRow * mN + bottomCol])
           continue;
-        if (_weightedUnionUF.connected(/*(topRow * _N +)*/topCol, bottomRow * _N + bottomCol)) {
+        if (mWeightedUnionUF.connected(/*(topRow * mN +)*/topCol, bottomRow * mN + bottomCol)) {
           return true;
         }
       }

@@ -2,10 +2,10 @@
  * Created by davidraleigh on 2/3/15.
  */
 public class PercolationStats {
-  private double _mean;
-  private double _std;
-  private double _confidenceLo;
-  private double _confidenceHigh;
+  private double mMean;
+  private double mStd;
+  private double mConfidenceLo;
+  private double mConfidenceHigh;
 
   /**
    * perform T independent experiments on an N-by-N grid
@@ -19,35 +19,33 @@ public class PercolationStats {
       throw new IllegalArgumentException();
 
     int[] attemptCount = new int[T];
-    int attemptIndex = 0;
     int meanSum = 0;
-    while (T > 0) {
+    for (int i = 0; i < T; i++) {
       Percolation percolation = new Percolation(N);
 
       int count = 0;
       while (!percolation.percolates()) {
-        int i = StdRandom.uniform(1, N + 1);
-        int j = StdRandom.uniform(1, N + 1);
-        percolation.open(i, j);
+        int row = StdRandom.uniform(1, N + 1);
+        int col = StdRandom.uniform(1, N + 1);
+        percolation.open(row, col);
         count++;
       }
       meanSum += count;
-      attemptCount[attemptIndex] = count;
-      T--;
+      attemptCount[i] = count;
     }
 
     // calculate mean
-    _mean = ((double)meanSum) / T;
+    mMean = (double)meanSum / T;
 
     // calculate std
     double stdSum = 0;
     for (int i = 0; i < T; i++) {
-      stdSum += Math.pow((attemptCount[i] - _mean), 2);
+      stdSum += (attemptCount[i] - mMean) * (attemptCount[i] - mMean);
     }
-    _std = Math.sqrt(stdSum / T - 1);
+    mStd = Math.sqrt(stdSum / (T - 1));
 
-    _confidenceLo = _mean - (1.96 * _std)/Math.sqrt(T);
-    _confidenceHigh = _mean + (1.96 * _std)/Math.sqrt(T);
+    mConfidenceLo = mMean - (1.96 * mStd) / Math.sqrt(T);
+    mConfidenceHigh = mMean + (1.96 * mStd) / Math.sqrt(T);
   }
 
   /**
@@ -56,7 +54,7 @@ public class PercolationStats {
    */
   public double mean()
   {
-    return _mean;
+    return mMean;
   }
 
   /**
@@ -65,7 +63,7 @@ public class PercolationStats {
    */
   public double stddev()
   {
-    return _std;
+    return mStd;
   }
 
   /**
@@ -74,7 +72,7 @@ public class PercolationStats {
    */
   public double confidenceLo()
   {
-    return _confidenceLo;
+    return mConfidenceLo;
   }
 
   /**
@@ -83,7 +81,7 @@ public class PercolationStats {
    */
   public double confidenceHi()
   {
-    return _confidenceHigh;
+    return mConfidenceHigh;
   }
 
   public static void main(String[] args)
@@ -98,7 +96,7 @@ public class PercolationStats {
 //    95% confidence interval = 0.5912745987737567, 0.5947124012262428
     StringBuilder sb = new StringBuilder();
     sb.append("mean                    = ");
-    sb.append (percolationStats.mean());
+    sb.append(percolationStats.mean());
     StdOut.println(sb.toString());
     sb.setLength(0);
     sb.append("stddev                  = ");
