@@ -46,53 +46,6 @@ public class PercolationTest {
     }
   }
 
-  // An improvement would be to setup parametrized tests
-  // Because unit tests all run independently This setup
-  // will run before every test. Annoying.
-  @Before
-  public void setUp() throws Exception {
-//    nonPercolators = new ArrayList<Percolation>();
-//    percolators = new ArrayList<Percolation>();
-//
-//    System.out.println("Working Directory = " + System.getProperty("user.dir"));
-//    File dataDirectory = new File(System.getProperty("user.dir"), "data");
-//    File[] files = new File(dataDirectory.toString()).listFiles();
-//    for (File file : files) {
-//      // files with '-no' in the name will fail to percolate
-//      String REGEX = "(-no)";
-//      Pattern p = Pattern.compile(REGEX);
-//      Matcher m = p.matcher(file.getName()); // get a matcher object
-//
-//      if (m.find()) {
-//        System.out.println("nonPercolators: " + file.getAbsolutePath());
-//        nonPercolators.add(readFile(file));
-//      } else {
-//        System.out.println("percolators: " + file.getAbsolutePath());
-//        percolators.add(readFile(file));
-//      }
-//    }
-  }
-
-  @After
-  public void tearDown() throws Exception {
-
-  }
-
-  @Test
-  public void testOpen() throws Exception {
-
-  }
-
-  @Test
-  public void testIsOpen() throws Exception {
-
-  }
-
-  @Test
-  public void testIsFull() throws Exception {
-
-  }
-
   @Test
   public void testPercolates() throws Exception {
     ArrayList<Percolation> percolators = new ArrayList<Percolation>();
@@ -142,7 +95,7 @@ public class PercolationTest {
   }
 
   @Test
-     public void testOpenIndexOutOfBoundsException1() {
+  public void testOpenIndexOutOfBoundsException1() {
     Percolation percolation = new Percolation(2);
     exception.expect(IndexOutOfBoundsException.class);
     percolation.open(3, 1);
