@@ -5,6 +5,7 @@
  Performance requirements.  The constructor should take time proportional to N2; all methods should take constant time plus a constant number of calls to the union-find methods union(), find(), connected(), and count().
  */
 public class Percolation {
+  private WeightedQuickUnionUF _weightedUnionUF;
 
   /**
    * create N-by-N grid, with all sites blocked
@@ -13,7 +14,7 @@ public class Percolation {
    */
   public Percolation(int N)
   {
-
+    _weightedUnionUF = new WeightedQuickUnionUF(N * N);
   }
 
   /**
